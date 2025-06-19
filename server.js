@@ -5,6 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const { addToQueue } = require('./convertQueue');
 const Video = require('./models/Videoup');
+const Port =  process.env.PORT||5000 
 
 const app = express();
 app.use(cors());
@@ -54,6 +55,6 @@ app.delete('/video/:id', async (req, res) => {
 
 
 
-app.listen(5000, () => console.log('Server started on port 5000'));
+app.listen(Port, () => console.log('Server started on port 5000'));
 
 
