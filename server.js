@@ -26,20 +26,18 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.post('/upload', upload.array('videos', 20), async (req, res) => {
-  const docs = [];
   for (let file of req.files) {
     const video = new Video({
       filename: file.originalname,
       inputPath: file.path,
-      status: 'queued', 
+      status: 'queued',
     });
     await video.save();
     addToQueue(video);
-    docs.push(video);
+    return res.json(video);
   }
-  res.json(docs);
+  res.status(400).json({ error: 'No files uploaded' });
 });
-
 
 app.get('/videos', async (req, res) => {
   const videos = await Video.find().sort({ _id: -1 });
