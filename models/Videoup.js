@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
 
+require("dotenv").config();
+
+mongoose.connect(process.env.MONGO_URL,{
+  useNewUrlParser : true ,
+  useunifiedTopology : true
+}).then(()=>console.log("mongo db connected")).catch(err =>console.error("Connection Error : ",err));
+
+
 const videoSchema = new mongoose.Schema({
   filename: String,
   inputPath: String,

@@ -12,7 +12,6 @@ app.use(cors());
 app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/videodb');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
