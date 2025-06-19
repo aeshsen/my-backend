@@ -9,7 +9,7 @@ const Port =  process.env.PORT||5000
 
 const app = express();
 app.use(cors({
-  origin : "https://video-converter-frontend.netlify.app/",
+  origin : "https://videoconverted08.netlify.app/",
   methods:["GET","POST","PUT","DELETE"],
   credentials:true
 }));
@@ -26,19 +26,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.post('/upload', upload.array('videos', 20), async (req, res) => {
+  const docs = [];
   for (let file of req.files) {
     const video = new Video({
       filename: file.originalname,
       inputPath: file.path,
-      status: 'queued',
+      status: 'queued', 
     });
     await video.save();
     addToQueue(video);
-    return res.json(video); // ✅ Return single video for current file
+    docs.push(video);
   }
-  res.status(400).json({ error: 'No files uploaded' });
+  res.json(docs);
 });
-
 
 
 app.get('/videos', async (req, res) => {
